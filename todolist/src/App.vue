@@ -31,23 +31,25 @@ export default {
   },
   data() {
     return {
-      todos: [
-        {
-          id: "001",
-          title: "想念Gavei",
-          done: true,
-        },
-        {
-          id: "002",
-          title: "vue项目",
-          done: false,
-        },
-        {
-          id: "003",
-          title: "二叉树",
-          done: false,
-        },
-      ],
+      todos:
+        JSON.parse(localStorage.getItem("todos")) ||
+        [
+          // {
+          //   id: "001",
+          //   title: "想念Gavei",
+          //   done: true,
+          // },
+          // {
+          //   id: "002",
+          //   title: "vue项目",
+          //   done: false,
+          // },
+          // {
+          //   id: "003",
+          //   title: "二叉树",
+          //   done: false,
+          // },
+        ],
     };
   },
   methods: {
@@ -69,6 +71,14 @@ export default {
     },
     deletealltodo() {
       this.todos = this.todos.filter((todo) => !todo.done);
+    },
+  },
+  watch: {
+    todos: {
+      deep: true,
+      handler(vaule) {
+        localStorage.setItem("todos", JSON.stringify(vaule));
+      },
     },
   },
 };
