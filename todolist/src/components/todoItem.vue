@@ -6,9 +6,23 @@
         :checked="todo.done"
         @change="handlecheck(todo.id)"
       />
-      <span>{{ todo.title }}</span>
+      <span v-show="!todo.isEdit">{{ todo.title }}</span>
+      <input
+        v-show="todo.isEdit"
+        type="text"
+        :value="todo.title"
+        @keyup.enter="handleeditenter(todo, $event)"
+        ref="inputtitle"
+      />
     </label>
     <button class="btn btn-danger" @click="handledelete(todo.id)">删除</button>
+    <button
+      v-show="!todo.isEdit"
+      class="btn btn-edit"
+      @click="handleedit(todo)"
+    >
+      编辑
+    </button>
   </li>
 </template>
 
@@ -16,6 +30,9 @@
 export default {
   name: "todoItem",
   props: ["todo"],
+  // updated() {
+  //   this.$refs.inputtitle.focus();
+  // },
   methods: {
     handlecheck(id) {
       this.$bus.$emit("checktodo", id);
@@ -24,6 +41,17 @@ export default {
       if (confirm("确定删除吗？")) {
         this.$bus.$emit("deletetodo", id);
       }
+    },
+    handleedit(todo) {
+      if (todo.hasOwnProperty.call("isEdit")) todo.isEdit = true;
+      else this.$set(todo, "isEdit", true);
+      this.$nextTick(function () {
+        this.$refs.inputtitle.focus();
+      });
+    },
+    handleeditenter(todo, e) {
+      todo.isEdit = false;
+      this.$bus.$emit("updatetodo", todo.id, e.target.value);
     },
   },
 };

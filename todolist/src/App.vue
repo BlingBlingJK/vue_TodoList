@@ -68,6 +68,14 @@ export default {
     deletealltodo() {
       this.todos = this.todos.filter((todo) => !todo.done);
     },
+    updatetodo(id, title) {
+      if (!title) this.todos = this.todos.filter((todo) => todo.id !== id);
+      else {
+        this.todos.forEach((todo) => {
+          if ((todo.id = id)) todo.title = title;
+        });
+      }
+    },
   },
   watch: {
     todos: {
@@ -81,9 +89,10 @@ export default {
   mounted() {
     this.$bus.$on("checktodo", this.checktodo);
     this.$bus.$on("deletetodo", this.deletetodo);
+    this.$bus.$on("updatetodo", this.updatetodo);
   },
   beforeDestroy() {
-    this.$bus.$off(["checktodo", "deletetodo"]);
+    this.$bus.$off(["checktodo", "deletetodo", "updatetodo"]);
   },
 };
 </script>
@@ -112,6 +121,12 @@ body {
   color: #fff;
   background-color: #da4f49;
   border: 1px solid #bd362f;
+}
+.btn-edit {
+  color: #fff;
+  background-color: green;
+  border: 1px solid green;
+  margin-right: 3px;
 }
 
 .btn-danger:hover {
