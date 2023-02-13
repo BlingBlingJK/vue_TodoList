@@ -13,14 +13,14 @@
 <script>
 export default {
   name: "todoFooter",
-  props: ["todos", "changealltodo", "deletealltodo"],
+  props: ["todos"],
   computed: {
     isAll: {
       get() {
         return this.truedone === this.todos.length && this.truedone !== 0;
       },
       set(val) {
-        this.changealltodo(val);
+        this.$emit("changealltodo", val);
       },
     },
     truedone() {
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     deleteall() {
-      this.deletealltodo();
+      this.$emit("deletealltodo");
     },
   },
 };

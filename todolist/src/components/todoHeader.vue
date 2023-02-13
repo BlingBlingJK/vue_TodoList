@@ -13,7 +13,6 @@
 import { nanoid } from "nanoid";
 export default {
   name: "todoHeader",
-  props: ["addtodo"],
   data() {
     return {
       title: "",
@@ -31,7 +30,7 @@ export default {
         title: this.title,
         done: false,
       };
-      this.addtodo(newtodo);
+      this.$emit("addtodo", newtodo);
       this.title = "";
     },
   },
