@@ -3,11 +3,7 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <todoHeader @addtodo="addtodo"></todoHeader>
-        <todoList
-          :todos="todos"
-          :checktodo="checktodo"
-          :deletetodo="deletetodo"
-        ></todoList>
+        <todoList :todos="todos"></todoList>
         <todoFooter
           :todos="todos"
           @changealltodo="changealltodo"
@@ -80,6 +76,14 @@ export default {
         localStorage.setItem("todos", JSON.stringify(vaule));
       },
     },
+  },
+  //GlobalEventBus
+  mounted() {
+    this.$bus.$on("checktodo", this.checktodo);
+    this.$bus.$on("deletetodo", this.deletetodo);
+  },
+  beforeDestroy() {
+    this.$bus.$off(["checktodo", "deletetodo"]);
   },
 };
 </script>
