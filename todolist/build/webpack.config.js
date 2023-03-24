@@ -5,5 +5,6 @@ module.exports = {
   output: {
     filename: "output.js", // 打包后的文件名称
     path: path.resolve(__dirname, "../dist"), // 打包后的目录，不用新建，打包后自动生成
+    clean: true, //自动清理打包目录
   },
 };
